@@ -18,7 +18,7 @@ public class UniprotSubcellApplication {
         ApplicationContext context = SpringApplication.run(UniprotSubcellApplication.class, args);
 
         // 1st parameter is to import the file
-        if (args.length > 1) {
+        if (args.length >= 1) {
             try {
                 context.getBean(SubcellularService.class).importEntriesFromFileIntoDb(args[0]);
             } catch (IOException e) {
