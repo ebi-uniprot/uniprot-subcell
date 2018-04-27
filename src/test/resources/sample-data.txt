@@ -1,0 +1,170 @@
+---------------------------------------------------------------------------
+        UniProt - Swiss-Prot Protein Knowledgebase
+        SIB Swiss Institute of Bioinformatics; Geneva, Switzerland
+        European Bioinformatics Institute (EBI); Hinxton, United Kingdom
+        Protein Information Resource (PIR); Washington DC, USA
+---------------------------------------------------------------------------
+
+Description: Controlled vocabulary of subcellular locations and membrane
+             topologies and orientations
+Name:        subcell.txt
+Release:     2018_04 of 25-Apr-2018
+
+---------------------------------------------------------------------------
+
+ This document lists the UniProtKB controlled vocabulary used for the
+ subcellular locations (including the membrane topologies and orientations
+ terms) in the SUBCELLULAR LOCATION lines.
+
+ It provides definitions of the terms as well as other relevant information
+ in the following format:
+
+  ---------  -------------------------------   ----------------------------
+  Line code  Content                           Occurrence in an entry
+  ---------  -------------------------------   ----------------------------
+  ID         Identifier (location)             Once; starts an entry
+  IT         Identifier (topology)             Once; starts a 'topology' entry
+  IO         Identifier (orientation)          Once; starts an 'orientation' entry
+  AC         Accession (SL-xxxx)               Once
+  DE         Definition                        Once or more
+  SY         Synonyms                          Optional; Once or more
+  SL         Content of subc. loc. lines       Once
+  HI         Hierarchy ('is-a')                Optional; Once or more
+  HP         Hierarchy ('part-of')             Optional; Once or more
+  KW         Associated keyword (accession)    Optional; Once
+  GO         Gene ontology (GO) mapping        Optional; Once or more
+  AN         Annotation note                   Optional; Once or more
+  RX         Interesting references            Optional; Once or more
+  WW         Interesting links                 Optional; Once or more
+  //         Terminator                        Once; ends an entry
+
+
+AN   Next free AC: SL-0501
+___________________________________________________________________________
+ID   Acrosome inner membrane.
+AC   SL-0004
+DE   The portion of the acrosomal membrane closely associated with the
+DE   anterior region of the nuclear envelope.
+SY   Acrosomal inner membrane; IAM; Inner acrosomal membrane.
+SL   Cytoplasmic vesicle, secretory vesicle, acrosome inner membrane.
+HP   Acrosome membrane.
+GO   GO:0002079; inner acrosomal membrane
+//
+ID   Cell tip.
+AC   SL-0456
+DE   The region at either end of the longest axis of a cylindrical or
+DE   elongated cell, where polarized growth may occur.
+SL   Cell tip.
+GO   GO:0051286; cell tip
+//
+ID   Acrosome membrane.
+AC   SL-0006
+DE   The membrane of the acrosome.
+SY   Acrosomal membrane.
+SL   Cytoplasmic vesicle, secretory vesicle, acrosome membrane.
+HI   Secretory vesicle membrane.
+HP   Acrosome.
+HP   Endomembrane system.
+GO   GO:0002080; acrosomal membrane
+//
+ID   Membrane.
+AC   SL-0162
+DE   A membrane is a lipid bilayer which surrounds enclosed spaces and
+DE   compartments. This selectively permeable structure is essential for
+DE   effective separation of a cell or organelle from its surroundings.
+DE   Membranes are composed of various types of molecules such as
+DE   phospholipids, integral membrane proteins, peripheral proteins,
+DE   glycoproteins, glycolipids, etc. The relative amounts of these
+DE   components as well as the types of lipids are non-randomly distributed
+DE   from membrane to membrane as well as between the two leaflets of a
+DE   membrane.
+SL   Membrane.
+KW   KW-0472
+GO   GO:0016020; membrane
+//
+ID   Vesicle.
+AC   SL-0498
+DE   A vesicle is a small structure consisting of fluid enclosed by a lipid
+DE   bilayer. Vesicles form naturally during the processes of secretion
+DE   (exocytosis), uptake (endocytosis) and transport of materials within
+DE   the cytoplasm or between cells, and exist both within the cell and in
+DE   the extracellular space.
+SL   Vesicle.
+RX   PubMed=24769233;
+//
+ID   Acrosome.
+AC   SL-0007
+DE   The acrosome is a large lysosome-like vesicle overlying the sperm
+DE   nucleus. This spermatid specific organelle, derived from the Golgi
+DE   during spermatogenesis, contains both unique acrosomal enzymes and
+DE   common enzymes associated with lysosomes in somatic cells. Only sperm
+DE   that have undergone the acrosome reaction can fuse with egg plasma
+DE   membrane. The acrosome reaction is characterized by multiple fusions
+DE   of the outer acrosomal membrane with the sperm cell membrane.
+SY   Acrosomal vesicle.
+SL   Cytoplasmic vesicle, secretory vesicle, acrosome.
+HI   Secretory vesicle.
+GO   GO:0001669; acrosomal vesicle
+//
+ID   Secretory vesicle membrane.
+AC   SL-0245
+DE   The membrane surrounding secretory vesicles.
+SY   Secretory granule membrane.
+SL   Cytoplasmic vesicle, secretory vesicle membrane.
+HI   Cytoplasmic vesicle membrane.
+HP   Secretory vesicle.
+GO   GO:0030658; transport vesicle membrane
+//
+ID   Cytoplasmic vesicle.
+AC   SL-0088
+DE   The cytoplasmic vesicles mediate vesicular transport among the
+DE   organelles of secretory and endocytic systems. These transport
+DE   vesicles are classified by the identity of the protein coat used in
+DE   their formation and also by the cargo they contain, e.g. clathrin-,
+DE   COPI-, and COPII-coated vesicles, synaptic vesicles, secretory
+DE   vesicles, phagosomes, etc.
+SL   Cytoplasmic vesicle.
+HI   Vesicle.
+KW   KW-0968
+//
+ID   Endomembrane system.
+AC   SL-0147
+DE   A collection of membranous structures involved in transport within the
+DE   cell. The main components of the endomembrane system are endoplasmic
+DE   reticulum, Golgi apparatus, vesicles and cell membrane and nuclear
+DE   envelope. The endomembrane system does not include the membranes of
+DE   mitochondria or plastids.
+SY   Endomembrane.
+SL   Endomembrane system.
+HI   Membrane.
+GO   GO:0012505; endomembrane system
+AN   Try to use a child/narrower/more specific term instead
+//
+ID   Cytoplasmic vesicle membrane.
+AC   SL-0089
+DE   The membrane surrounding a cytoplasmic vesicle. The cytoplasmic
+DE   vesicles mediate vesicular transport among the organelles of secretory
+DE   and endocytic systems.
+SL   Cytoplasmic vesicle membrane.
+HI   Membrane.
+HP   Cytoplasmic vesicle.
+HP   Endomembrane system.
+GO   GO:0030659; cytoplasmic vesicle membrane
+//
+ID   Secretory vesicle.
+AC   SL-0244
+DE   The secretory vesicle is a vesicle that mediates the vesicular
+DE   transport of cargo - e.g. hormones or neurotransmitters - from an
+DE   organelle to specific sites at the cell membrane, where it docks and
+DE   fuses to release its content. It has been demonstrated that membrane-
+DE   bound secretory vesicles dock and fuse at porosomes, which are
+DE   specialized supramolecular structures at the cell membrane.
+SY   Secretory granule.
+SL   Cytoplasmic vesicle, secretory vesicle.
+HI   Cytoplasmic vesicle.
+GO   GO:0030133; transport vesicle
+//
+-----------------------------------------------------------------------
+Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
+Distributed under the Creative Commons Attribution-NoDerivs License
+-----------------------------------------------------------------------

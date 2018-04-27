@@ -45,7 +45,7 @@ public class SubcellularService {
 
     @Transactional(readOnly = true)
     public Collection<Subcellular> findByIdentifierLike(final String identifier) {
-        Collection<Subcellular> result = subcellularRepository.findByIdentifierLike(identifier);
+        Collection<Subcellular> result = subcellularRepository.findByIdentifierIgnoreCaseLike(identifier);
         return result;
     }
 }

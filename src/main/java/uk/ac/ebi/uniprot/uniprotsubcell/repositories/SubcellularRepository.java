@@ -11,11 +11,8 @@ import org.springframework.data.repository.query.Param;
 public interface SubcellularRepository extends Neo4jRepository<Subcellular, Long> {
 
     // we can use here @depth(-1) but this is more optimised
-    // @Query("MATCH (n:Subcellular{accession:{0}}) WITH n MATCH p=(n)-[*0..]->() RETURN p, length(p) ORDER BY length(p)
-    // DESC LIMIT 1")
-
     @Query("MATCH (n:Subcellular{accession:{0}}) WITH n MATCH p=(n)-[*0..]->() RETURN p")
     List<Subcellular> findByAccession(String accession);
 
-    Collection<Subcellular> findByIdentifierLike(@Param("identifier") String identifier);
+    Collection<Subcellular> findByIdentifierIgnoreCaseLike(@Param("identifier") String identifier);
 }
