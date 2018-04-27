@@ -1,5 +1,5 @@
 # uniprot-subcell
-This is a REST API for [uniprot subcellular locations](https://www.uniprot.org/locations). Standalone application, you need java8 and maven to startup
+This is a REST API for [uniprot subcellular locations](https://www.uniprot.org/locations). Standalone application, you need java8 and maven to startup. **This project is currently under development.**
 
 ## Technologies
 * Java 8
