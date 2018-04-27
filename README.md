@@ -21,6 +21,8 @@ This is a REST API for [uniprot subcellular locations](https://www.uniprot.org/l
 Endpoint | Description
 -------- | -----------
 http://localhost:8080/accession/SL-0004 | Return the single subcellular entry with all depth relationships exact match on accession=SL-0004
+http://localhost:8080/identifier/Membrane | Return single subcellular entry with all depth relationships exact match on identifier=Membrane with case-sensitive
+http://localhost:8080/identifier/all/MemBrAnE | Returns the Collection of subcellulars of all the matching subcellulars which contains the "membrane" after ignoring case in identifiers. Return elements in list will resolve relationships at depth 1
 
 ## Code Explanation
 1. Main Class uk.ac.ebi.uniprot.uniprotsubcell.UniprotSubcellApplication

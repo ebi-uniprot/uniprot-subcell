@@ -44,8 +44,14 @@ public class SubcellularService {
     }
 
     @Transactional(readOnly = true)
-    public Collection<Subcellular> findByIdentifierLike(final String identifier) {
-        Collection<Subcellular> result = subcellularRepository.findByIdentifierIgnoreCaseLike(identifier);
+    public Subcellular findByIdentifier(final String identifier) {
+        List<Subcellular> result = subcellularRepository.findByIdentifier(identifier);
+        return result.isEmpty() ? null : result.get(0);
+    }
+
+    @Transactional(readOnly = true)
+    public Collection<Subcellular> findByIdentifierIgnoreCaseLike(final String identifier) {
+        Collection<Subcellular> result = subcellularRepository.findByIdentifierIgnoreCaseLike("*" + identifier + "*");
         return result;
     }
 }

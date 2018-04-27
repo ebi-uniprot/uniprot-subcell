@@ -24,8 +24,13 @@ public class DefaultController {
     }
 
     @GetMapping("identifier/{identifier}")
-    public Collection<Subcellular> findByTitleLike(@PathVariable String identifier) {
-        return subcellularService.findByIdentifierLike(identifier);
+    public Subcellular findByIdentifier(@PathVariable String identifier) {
+        return subcellularService.findByIdentifier(identifier);
+    }
+
+    @GetMapping("identifier/all/{identifier}")
+    public Collection<Subcellular> findByidentifierLikeIgnoreCase(@PathVariable String identifier) {
+        return subcellularService.findByIdentifierIgnoreCaseLike(identifier);
     }
 
 }

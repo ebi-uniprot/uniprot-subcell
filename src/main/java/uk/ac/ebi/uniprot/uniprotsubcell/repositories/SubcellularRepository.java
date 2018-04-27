@@ -13,6 +13,9 @@ public interface SubcellularRepository extends Neo4jRepository<Subcellular, Long
     // we can use here @depth(-1) but this is more optimised
     @Query("MATCH (n:Subcellular{accession:{0}}) WITH n MATCH p=(n)-[*0..]->() RETURN p")
     List<Subcellular> findByAccession(String accession);
+    
+    @Query("MATCH (n:Subcellular{identifier:{identifier}}) WITH n MATCH p=(n)-[*0..]->() RETURN p")
+    List<Subcellular> findByIdentifier(@Param("identifier") String identifier);
 
     Collection<Subcellular> findByIdentifierIgnoreCaseLike(@Param("identifier") String identifier);
 }
