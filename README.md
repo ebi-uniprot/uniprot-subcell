@@ -8,7 +8,7 @@ This is a REST API for [uniprot subcellular locations](https://www.uniprot.org/l
 * Maven
 
 ## Getting started
-1. Download subcellular data file from [link](ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/subcell.txt) on local file system
+1. Download subcellular data file from ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/subcell.txt on local file system
 1. Download/clone the code from github `git clone https://github.com/ebi-uniprot/uniprot-subcell.git`
 1. Open file *uniprot-subcell/src/main/resources/application.properties* and change the value **spring.data.neo4j.uri=file://** with the path where you want to create your neo4j database 
 1. Go to uniprot-subcell directory from terminal/command prompt
