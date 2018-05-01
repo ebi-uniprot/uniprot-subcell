@@ -1,6 +1,6 @@
-package uk.ac.ebi.uniprot.uniprotsubcell.controller;
+package uk.ac.ebi.uniprot.uniprotsubcell.controllers;
 
-import uk.ac.ebi.uniprot.uniprotsubcell.domain.Subcellular;
+import uk.ac.ebi.uniprot.uniprotsubcell.domains.Subcellular;
 import uk.ac.ebi.uniprot.uniprotsubcell.services.SubcellularService;
 
 import java.util.Collection;

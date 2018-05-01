@@ -1,19 +1,22 @@
-package uk.ac.ebi.uniprot.uniprotsubcell.importData;
+package uk.ac.ebi.uniprot.uniprotsubcell.import_data;
 
-import uk.ac.ebi.uniprot.uniprotsubcell.domain.GeneOntology;
-import uk.ac.ebi.uniprot.uniprotsubcell.domain.Location;
-import uk.ac.ebi.uniprot.uniprotsubcell.domain.Orientation;
-import uk.ac.ebi.uniprot.uniprotsubcell.domain.Subcellular;
-import uk.ac.ebi.uniprot.uniprotsubcell.domain.Topology;
+import uk.ac.ebi.uniprot.uniprotsubcell.domains.GeneOntology;
+import uk.ac.ebi.uniprot.uniprotsubcell.domains.Location;
+import uk.ac.ebi.uniprot.uniprotsubcell.domains.Orientation;
+import uk.ac.ebi.uniprot.uniprotsubcell.domains.Subcellular;
+import uk.ac.ebi.uniprot.uniprotsubcell.domains.Topology;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ParseSubCellLines {
 
-    private final String SPLIT_SPACES = "   ";
+    private static final String SPLIT_SPACES = "   ";
+    private static final Logger LOG = LoggerFactory.getLogger(ParseSubCellLines.class);
 
     public List<Subcellular> parseLines(List<String> lines) {
         List<SubcellularFileEntry> rawList = convertLinesIntoInMemoryObjectList(lines);
@@ -97,6 +100,8 @@ public class ParseSubCellLines {
                 case "WW":
                     entry.WW.add(tokens[1]);
                     break;
+                default:
+                    LOG.info("Unhandle line found while parsing file: {}", line);
 
             }
 
@@ -162,23 +167,34 @@ public class ParseSubCellLines {
     private void updateListWithRelationShips(List<Subcellular> list, List<SubcellularFileEntry> rawList) {
         for (SubcellularFileEntry raw : rawList) {
 
-            if (!raw.HI.isEmpty() || !raw.HP.isEmpty()) {
-                final String rawId = raw.ID != null ? raw.ID : raw.IT != null ? raw.IT : raw.IO;
-                Subcellular target = findByIdentifier(list, rawId);
-                if (!raw.HI.isEmpty()) {
-                    target.setIsA(new ArrayList<>());
-                    for (String id : raw.HI) {
-                        target.getIsA().add(findByIdentifier(list, id));
-                    }
+            // Only check for those who have relationships
+            if (raw.HI.isEmpty() && raw.HP.isEmpty()) {
+                continue;
+            }
+            
+            Subcellular target = findByIdentifier(list, getIdentifier(raw));
+            
+            assert(target !=null);
+            
+            if (!raw.HI.isEmpty()) {
+                target.setIsA(new ArrayList<>());
+                for (String id : raw.HI) {
+                    target.getIsA().add(findByIdentifier(list, id));
                 }
-                if (!raw.HP.isEmpty()) {
-                    target.setPartOf(new ArrayList<>());
-                    for (String id : raw.HP) {
-                        target.getPartOf().add(findByIdentifier(list, id));
-                    }
+            }
+            if (!raw.HP.isEmpty()) {
+                target.setPartOf(new ArrayList<>());
+                for (String id : raw.HP) {
+                    target.getPartOf().add(findByIdentifier(list, id));
                 }
             }
         }
+    }
+
+    private String getIdentifier(SubcellularFileEntry raw) {
+        if (raw.ID != null)
+            return raw.ID;
+        return raw.IT != null ? raw.IT : raw.IO;
     }
 
     private Subcellular findByIdentifier(List<Subcellular> list, String id) {

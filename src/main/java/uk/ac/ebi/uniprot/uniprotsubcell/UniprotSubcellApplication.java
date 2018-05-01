@@ -1,3 +1,4 @@
+//Using the plural for packages with homogeneous contents and the singular for packages with heterogeneous contents.
 package uk.ac.ebi.uniprot.uniprotsubcell;
 
 import uk.ac.ebi.uniprot.uniprotsubcell.services.SubcellularService;

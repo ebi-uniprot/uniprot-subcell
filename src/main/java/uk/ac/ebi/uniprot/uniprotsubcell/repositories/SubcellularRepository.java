@@ -1,6 +1,6 @@
 package uk.ac.ebi.uniprot.uniprotsubcell.repositories;
 
-import uk.ac.ebi.uniprot.uniprotsubcell.domain.Subcellular;
+import uk.ac.ebi.uniprot.uniprotsubcell.domains.Subcellular;
 
 import java.util.Collection;
 import java.util.List;

@@ -1,7 +1,7 @@
 package uk.ac.ebi.uniprot.uniprotsubcell.services;
 
-import uk.ac.ebi.uniprot.uniprotsubcell.domain.Subcellular;
-import uk.ac.ebi.uniprot.uniprotsubcell.importData.ParseSubCellLines;
+import uk.ac.ebi.uniprot.uniprotsubcell.domains.Subcellular;
+import uk.ac.ebi.uniprot.uniprotsubcell.import_data.ParseSubCellLines;
 import uk.ac.ebi.uniprot.uniprotsubcell.repositories.SubcellularRepository;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SubcellularService {
-    private final static Logger LOG = LoggerFactory.getLogger(SubcellularService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SubcellularService.class);
 
     private final SubcellularRepository subcellularRepository;
 
@@ -26,12 +26,12 @@ public class SubcellularService {
 
     @Transactional
     public void importEntriesFromFileIntoDb(final String filePath) throws IOException {
-        LOG.debug("File path to import data set " + filePath);
+        LOG.debug("File: {} to import data set ", filePath);
         final ParseSubCellLines parser = new ParseSubCellLines();
         List<String> allLines = Files.readAllLines(Paths.get(filePath));
-        LOG.debug("total lines found in file " + allLines.size());
+        LOG.debug("total {} lines found in file ", allLines.size());
         List<Subcellular> subCellList = parser.parseLines(allLines);
-        LOG.info("total entries found in file " + subCellList.size());
+        LOG.info("total {} entries found in file ", subCellList.size());
         LOG.debug("saving entries into file");
         subcellularRepository.saveAll(subCellList);
         LOG.info("Import finished and entries saved into database successfully");
@@ -51,7 +51,6 @@ public class SubcellularService {
 
     @Transactional(readOnly = true)
     public Collection<Subcellular> findByIdentifierIgnoreCaseLike(final String identifier) {
-        Collection<Subcellular> result = subcellularRepository.findByIdentifierIgnoreCaseLike("*" + identifier + "*");
-        return result;
+        return subcellularRepository.findByIdentifierIgnoreCaseLike("*" + identifier + "*");
     }
 }

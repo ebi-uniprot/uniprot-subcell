@@ -1,6 +1,7 @@
-package uk.ac.ebi.uniprot.uniprotsubcell.importData;
+package uk.ac.ebi.uniprot.uniprotsubcell.import_data;
 
-import uk.ac.ebi.uniprot.uniprotsubcell.domain.Subcellular;
+import uk.ac.ebi.uniprot.uniprotsubcell.domains.Subcellular;
+import uk.ac.ebi.uniprot.uniprotsubcell.import_data.ParseSubCellLines;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +34,7 @@ public class ParseSubCellLinesTest {
                 "The region at either end of the longest axis of a cylindrical or elongated cell, where polarized growth may occur.",
                 retObj.getDefinition());
         assertEquals("Content of subc. loc. lines match", "Cell tip", retObj.getContent());
-        assertEquals("Type match", "Location", retObj.getType());
+        assertEquals("Type match", "Cellular component", retObj.getCategory());
 
         assertTrue("Size of GO mapping shoud be exactly 1", retObj.getGoMappings().size() == 1);
         assertEquals("GO id check", "GO:0051286", retObj.getGoMappings().get(0).getGoId());

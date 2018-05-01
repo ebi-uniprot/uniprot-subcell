@@ -3,9 +3,13 @@ This is a REST API for [uniprot subcellular locations](https://www.uniprot.org/l
 
 ## Technologies
 * Java 8
-* Spring boot
-* Embedded neo4j
-* Maven
+* Spring boot 2.0.1
+* Embedded neo4j 3
+* Maven 3.5.2
+* Junit 4.12
+* Mockito 2.15
+* jackson 2.9.5
+* assertj 3.9.1
 
 ## Getting started
 1. Download subcellular data file from ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/subcell.txt on local file system
@@ -25,6 +29,7 @@ http://localhost:8080/identifier/Membrane | Return single subcellular entry with
 http://localhost:8080/identifier/all/MemBrAnE | Returns the Collection of subcellulars of all the matching subcellulars which contains the "membrane" after ignoring case in identifiers. Return elements in list will resolve relationships at depth 1
 
 ## Code Explanation
+1. Package name convention, using the plural for packages with homogeneous contents and the singular for packages with heterogeneous contents.
 1. Main Class uk.ac.ebi.uniprot.uniprotsubcell.UniprotSubcellApplication
 1. Single Controller for API uk.ac.ebi.uniprot.uniprotsubcell.controller.DefaultController
 1. Controller interacting with service and service interacting with repository

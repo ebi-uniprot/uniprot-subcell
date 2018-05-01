@@ -1,7 +1,7 @@
 package uk.ac.ebi.uniprot.uniprotsubcell.repositories;
 
-import uk.ac.ebi.uniprot.uniprotsubcell.domain.Subcellular;
-import uk.ac.ebi.uniprot.uniprotsubcell.importData.ParseSubCellLines;
+import uk.ac.ebi.uniprot.uniprotsubcell.domains.Subcellular;
+import uk.ac.ebi.uniprot.uniprotsubcell.import_data.ParseSubCellLines;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.neo4j.DataNeo4jTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
@@ -23,26 +23,23 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@Transactional
+@DataNeo4jTest
 public class SubcellularRepositoryTest {
 
-    private static boolean runOnce = false;
+    private static List<Subcellular> subcellList;
 
     @Autowired
     private SubcellularRepository repo;
 
     @Before
     public void setUp() throws IOException, URISyntaxException {
-        if (!runOnce) {
+        if (SubcellularRepositoryTest.subcellList == null) {
             final ParseSubCellLines obj = new ParseSubCellLines();
-            // getClass().getClassLoader().getResource(name)
             Path sampleDataFilePath = Paths.get(ClassLoader.getSystemResource("sample-data.txt").toURI());
-
-            List<Subcellular> subcellList = obj.parseLines(Files.readAllLines(sampleDataFilePath));
-            repo.saveAll(subcellList);
-            runOnce = true;
+            SubcellularRepositoryTest.subcellList = obj.parseLines(Files.readAllLines(sampleDataFilePath));
         }
+        
+        repo.saveAll(SubcellularRepositoryTest.subcellList);
     }
 
     /**
@@ -77,7 +74,7 @@ public class SubcellularRepositoryTest {
         final String id = "*MemBrAnE*";
         Collection<Subcellular> result = repo.findByIdentifierIgnoreCaseLike(id);
         assertNotNull(result);
-        assertEquals("membrance should be find in result set ",6, result.size());
+        assertEquals("membrance should be find in result set ", 6, result.size());
     }
 
 }

@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.uniprotsubcell.domain;
+package uk.ac.ebi.uniprot.uniprotsubcell.domains;
 
 public class Orientation extends Subcellular {
 

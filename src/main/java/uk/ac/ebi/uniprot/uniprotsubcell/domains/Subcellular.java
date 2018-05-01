@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.uniprotsubcell.domain;
+package uk.ac.ebi.uniprot.uniprotsubcell.domains;
 
 import java.util.List;
 import javax.validation.constraints.NotNull;
@@ -81,7 +81,7 @@ public class Subcellular {
     }
 
     // Public getters will be needed while send result as JSON
-    public String getType() {
+    public String getCategory() {
         return this.getClass().getSimpleName();
     }
 

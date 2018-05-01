@@ -1,4 +1,4 @@
-package uk.ac.ebi.uniprot.uniprotsubcell.domain;
+package uk.ac.ebi.uniprot.uniprotsubcell.domains;
 
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;

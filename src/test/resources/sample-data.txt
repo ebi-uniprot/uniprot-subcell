@@ -164,6 +164,19 @@ SL   Cytoplasmic vesicle, secretory vesicle.
 HI   Cytoplasmic vesicle.
 GO   GO:0030133; transport vesicle
 //
+IT   Lipid-anchor.
+AC   SL-9901
+DE   Protein bound to the lipid bilayer of a membrane through a
+DE   posttranslationally modification by the attachment of at least one
+DE   lipid or fatty acid, e.g. farnesyl, palmitate and myristate.
+SL   Lipid-anchor.
+KW   KW-0449
+//
+IO   Cytoplasmic side.
+AC   SL-9910
+DE   Protein found mostly on the cytoplasmic side of the membrane.
+SL   Cytoplasmic side.
+//
 -----------------------------------------------------------------------
 Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
 Distributed under the Creative Commons Attribution-NoDerivs License
