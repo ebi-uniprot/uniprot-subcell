@@ -1,5 +1,5 @@
 # uniprot-subcell
-This is a REST API for [uniprot subcellular locations](https://www.uniprot.org/locations). Standalone application, you need java8 and maven to startup. **This project is currently under development.**
+This is a REST API for [uniprot subcellular locations](https://www.uniprot.org/locations). Standalone application, you need java8 and maven to startup.
 
 ## Technologies
 * Java 8
@@ -35,3 +35,20 @@ http://localhost:8080/search/mEmbrance iNNer | Returns the unique collection of 
 1. Single Controller for API uk.ac.ebi.uniprot.uniprotsubcell.controller.DefaultController
 1. Controller interacting with service and service interacting with repository
 1. Import/Parse file logic is in uk.ac.ebi.uniprot.uniprotsubcell.importData.ParseSubCellLines
+
+## License
+This software is licensed under the Apache 2 license, quoted below.
+
+Copyright (c) 2018, ebi-uniprot
+
+Licensed under the Apache License, Version 2.0 [file](LICENSE) you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
