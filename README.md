@@ -1,5 +1,9 @@
 # uniprot-subcell
-This is a REST API for [uniprot subcellular locations](https://www.uniprot.org/locations). Standalone application, you need java8 and maven to startup.
+This is a REST API for [uniprot subcellular locations](https://www.uniprot.org/locations). 
+
+UniProtKB (Universal Protein Knowledgebase) is a collection of functional information on proteins. Protein may be found on some location. Therefore found location described in UniProtKB entries with a controlled vocabulary, which includes also membrane topology and orientation terms. Now if user wants the detail about the loction of some perticular protein, user (website/computer) can use this REST API to get all about Subcellular location entry.
+
+Standalone application, you need java8 and maven to startup.
 
 ## Technologies
 * Java 8
