@@ -7,8 +7,10 @@ import uk.ac.ebi.uniprot.uniprotsubcell.repositories.SubcellularRepository;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -52,5 +54,18 @@ public class SubcellularService {
     @Transactional(readOnly = true)
     public Collection<Subcellular> findByIdentifierIgnoreCaseLike(final String identifier) {
         return subcellularRepository.findByIdentifierIgnoreCaseLike("*" + identifier + "*");
+    }
+
+    @Transactional(readOnly = true)
+    public Collection<Subcellular> findAllByKeyWords(String input) {
+        Set<String> words =
+                Stream.of(input.split("\\s+")).map(s -> "*" + s.toLowerCase() + "*").collect(Collectors.toSet());
+        // Database will be embedded so we can query multiple times with minimum performance hit
+        // We could build dynamic query to save DB hits, but that will increase code also load on DB to scan for huge
+        // set
+        return words.stream().flatMap(i -> subcellularRepository
+                .findByIdentifierIgnoreCaseLikeOrAccessionIgnoreCaseLikeOrContentIgnoreCaseLikeOrKeywordIgnoreCaseLikeOrSynonymsIgnoreCaseLikeOrNoteIgnoreCaseLikeOrDefinitionIgnoreCaseLike(
+                        i, i, i, i, i, i, i)
+                .stream()).collect(Collectors.toSet());
     }
 }

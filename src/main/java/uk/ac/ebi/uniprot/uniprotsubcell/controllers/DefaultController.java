@@ -33,4 +33,9 @@ public class DefaultController {
         return subcellularService.findByIdentifierIgnoreCaseLike(identifier);
     }
 
+    @GetMapping("search/{wordSeperatedBySpace}")
+    public Collection<Subcellular> search(@PathVariable String wordSeperatedBySpace) {
+        return subcellularService.findAllByKeyWords(wordSeperatedBySpace);
+    }
+
 }

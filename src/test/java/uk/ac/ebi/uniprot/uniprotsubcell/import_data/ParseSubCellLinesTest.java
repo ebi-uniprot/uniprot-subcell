@@ -26,7 +26,7 @@ public class ParseSubCellLinesTest {
                         "//");
         List<Subcellular> retList = obj.parseLines(input);
 
-        assertTrue("Size shoud be exactly 1", retList.size() == 1);
+        assertEquals("Size shoud be exactly 1", 1,retList.size());
         Subcellular retObj = retList.get(0);
         assertEquals("Identifier check", "Cell tip", retObj.getIdentifier());
         assertEquals("Accession test", "SL-0456", retObj.getAccession());
@@ -36,7 +36,7 @@ public class ParseSubCellLinesTest {
         assertEquals("Content of subc. loc. lines match", "Cell tip", retObj.getContent());
         assertEquals("Type match", "Cellular component", retObj.getCategory());
 
-        assertTrue("Size of GO mapping shoud be exactly 1", retObj.getGoMappings().size() == 1);
+        assertEquals("Size of GO mapping shoud be exactly 1", 1,retObj.getGoMappings().size());
         assertEquals("GO id check", "GO:0051286", retObj.getGoMappings().get(0).getGoId());
         assertEquals("GO definition check", "cell tip", retObj.getGoMappings().get(0).getDefinition());
     }

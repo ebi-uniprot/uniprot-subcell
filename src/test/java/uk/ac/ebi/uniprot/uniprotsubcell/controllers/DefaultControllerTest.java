@@ -53,6 +53,9 @@ public class DefaultControllerTest {
 
         given(this.subcellularService.findByIdentifierIgnoreCaseLike("singleWord"))
                 .willReturn(Arrays.asList(l, o, t));
+
+        given(this.subcellularService.findAllByKeyWords("Membrane iNNer outer"))
+                .willReturn(Arrays.asList(l, o, t));
     }
 
     @Test
@@ -95,9 +98,23 @@ public class DefaultControllerTest {
         assertThat(retList.get(2).getAccession()).isIn(accessions);
 
         List<String> caategories = Arrays.asList("Cellular component", "Orientation", "Topology");
+        final String CATEGORY_PATH = "/category";
         JsonNode tree = mapper.readTree(rawRes.getResponse().getContentAsString());
-        assertThat(tree.get(0).at("/category").textValue()).isIn(caategories);
-        assertThat(tree.get(1).at("/category").textValue()).isIn(caategories);
-        assertThat(tree.get(2).at("/category").textValue()).isIn(caategories);
+        assertThat(tree.get(0).at(CATEGORY_PATH).textValue()).isIn(caategories);
+        assertThat(tree.get(1).at(CATEGORY_PATH).textValue()).isIn(caategories);
+        assertThat(tree.get(2).at(CATEGORY_PATH).textValue()).isIn(caategories);
+    }
+
+    @Test
+    public void testSearchEndPoint() throws Exception {
+
+        MvcResult rawRes = mockMvc.perform(get("/search/{wordSeperatedBySpace}", "Membrane iNNer outer"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<Subcellular> retList = mapper.readValue(rawRes.getResponse().getContentAsString(),
+                mapper.getTypeFactory().constructCollectionType(List.class, Subcellular.class));
+
+        assertThat(retList.size()).isEqualTo(3);
     }
 }

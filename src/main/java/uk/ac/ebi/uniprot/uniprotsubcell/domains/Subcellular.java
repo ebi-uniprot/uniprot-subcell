@@ -1,6 +1,7 @@
 package uk.ac.ebi.uniprot.uniprotsubcell.domains;
 
 import java.util.List;
+import java.util.Objects;
 import javax.validation.constraints.NotNull;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
@@ -172,6 +173,23 @@ public class Subcellular {
 
     public void setLinks(List<String> links) {
         this.links = links;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof Subcellular))
+            return false;
+        Subcellular that = (Subcellular) o;
+        return Objects.equals(identifier, that.identifier) &&
+                Objects.equals(accession, that.accession) &&
+                Objects.equals(content, that.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(identifier, accession, content);
     }
 
     @Override

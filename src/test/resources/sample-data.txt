@@ -177,6 +177,21 @@ AC   SL-9910
 DE   Protein found mostly on the cytoplasmic side of the membrane.
 SL   Cytoplasmic side.
 //
+ID   Cell junction.
+AC   SL-0038
+DE   The cell junction is a cell-cell or cell-extracellular matrix contact
+DE   within a tissue of a multicellular organism, especially abundant in
+DE   epithelia. In vertebrates, there are three major types of cell
+DE   junctions: anchoring junctions (e.g. adherens junctions),
+DE   communicating junctions (e.g. gap junctions) and occluding junctions
+DE   (e.g. tight junctions).
+SL   Cell junction.
+KW   KW-0965
+GO   GO:0030054; cell junction
+AN   Add "Cell membrane" if the protein is clearly associated with the
+AN   membrane.
+WW   http://www.ncbi.nlm.nih.gov/bookshelf/br.fcgi?book=mboc4&part=A3469
+//
 -----------------------------------------------------------------------
 Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms
 Distributed under the Creative Commons Attribution-NoDerivs License
