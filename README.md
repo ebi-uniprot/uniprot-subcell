@@ -38,7 +38,10 @@ http://localhost:8080/search/mEmbrance iNNer | Returns the unique collection of 
 1. Main Class uk.ac.ebi.uniprot.uniprotsubcell.UniprotSubcellApplication
 1. Single Controller for API uk.ac.ebi.uniprot.uniprotsubcell.controller.DefaultController
 1. Controller interacting with service and service interacting with repository
-1. Import/Parse file logic is in uk.ac.ebi.uniprot.uniprotsubcell.importData.ParseSubCellLines
+1. Import/Parse file logic is in uk.ac.ebi.uniprot.uniprotsubcell.import_data.ParseSubCellLines
+1. Dataset while never (too slow) grow, therefore making following to make application fast
+   1. While importing loading all lines from file to memory
+   1. Create / persist list of all (511) object into database at once
 
 ## License
 This software is licensed under the Apache 2 license, quoted below.
