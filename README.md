@@ -37,6 +37,15 @@ http://localhost:8080/identifier/Membrane | Return single subcellular entry with
 http://localhost:8080/identifier/all/MemBrAnE | Returns the collection of subcellulars of all the matching subcellulars which contains the "membrane" after ignoring case in identifiers. Return elements in list will resolve relationships at depth 1
 http://localhost:8080/search/mEmbrance iNNer | Returns the unique collection of subcellulars of all the matching subcellulars which contains the "membrane" or "inner" after ignoring case in identifier or accession or content or keyword or synonyms or note or definition. Return elements in collection will contain relationships at depth level 1
 
+## Getting started with Docker
+You can build image [locally](docker) as well as use docker hub to pull image.
+
+to pull from docker hub and start container in backgroud
+```
+docker run -d -p8080:8080 --name subcell impo/subcell_api:2018_04
+```
+Need any help regarding git commands see [git](https://github.com/rizwan-ishtiaq/wiki/blob/master/commands/docker.txt) for quick reference.
+
 ## Code Explanation
 1. Package name convention, using the plural for packages with homogeneous contents and the singular for packages with heterogeneous contents.
 1. Main Class uk.ac.ebi.uniprot.uniprotsubcell.UniprotSubcellApplication
