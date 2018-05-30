@@ -15,4 +15,4 @@ docker build -f docker/Dockerfile -t subcell_api https://github.com/ebi-uniprot/
 ### Clean up
 > If you are uing above command to build image locally, because of multi build it will create and extra image of size aprox 1 GB with repository none. You can optionally delete that image. One good way to check your images before and after run of above command
 
-Need any help regarding git commands see [git](https://github.com/rizwan-ishtiaq/wiki/blob/master/commands/docker.txt) for quick reference.
+Need any help regarding docker commands see [docker](https://github.com/rizwan-ishtiaq/wiki/blob/master/commands/docker.txt) for quick reference.
