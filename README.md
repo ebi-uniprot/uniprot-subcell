@@ -40,6 +40,15 @@ http://localhost:8080/search/mEmbrance iNNer | Returns the unique collection of 
 http://localhost:8080/v2/api-docs | API documentation in JSON format
 http://localhost:8080/swagger-ui.html | API documentation for user (Web-UI)
 
+## Getting started with Docker
+You can build image [locally](docker) as well as use docker hub to pull image.
+
+to pull from docker hub and start container in backgroud
+```
+docker run -d -p8080:8080 --name subcell impo/subcell_api:2018_04
+```
+Need any help regarding docker commands see [docker](https://github.com/rizwan-ishtiaq/wiki/blob/master/commands/docker.txt) for quick reference.
+
 ## Code Explanation
 1. Package name convention, using the plural for packages with homogeneous contents and the singular for packages with heterogeneous contents.
 1. Main Class uk.ac.ebi.uniprot.uniprotsubcell.UniprotSubcellApplication
