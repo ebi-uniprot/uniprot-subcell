@@ -15,6 +15,7 @@ Standalone application, you need java8 and maven to startup.
 * jackson 2.9.5
 * assertj 3.9.1
 * docker 17.12
+* Swagger 2 with Springfox
 
 ## Getting started
 1. Download subcellular data file from ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/subcell.txt on local file system
@@ -36,6 +37,8 @@ http://localhost:8080/accession/SL-0004 | Return the single subcellular entry wi
 http://localhost:8080/identifier/Membrane | Return single subcellular entry with all depth relationships exact match on identifier=Membrane with case-sensitive
 http://localhost:8080/identifier/all/MemBrAnE | Returns the collection of subcellulars of all the matching subcellulars which contains the "membrane" after ignoring case in identifiers. Return elements in list will resolve relationships at depth 1
 http://localhost:8080/search/mEmbrance iNNer | Returns the unique collection of subcellulars of all the matching subcellulars which contains the "membrane" or "inner" after ignoring case in identifier or accession or content or keyword or synonyms or note or definition. Return elements in collection will contain relationships at depth level 1
+http://localhost:8080/v2/api-docs | API documentation in JSON format
+http://localhost:8080/swagger-ui.html | API documentation for user (Web-UI)
 
 ## Code Explanation
 1. Package name convention, using the plural for packages with homogeneous contents and the singular for packages with heterogeneous contents.
