@@ -15,7 +15,7 @@ public interface SubcellularRepository extends Neo4jRepository<Subcellular, Long
     @Query("MATCH (n:Subcellular{accession:{0}}) WITH n MATCH p=(n)-[*0..]->() RETURN p")
     List<Subcellular> findByAccession(String accession);
 
-    @Query("MATCH (n:Subcellular{identifier:{identifier}}) WITH n MATCH p=(n)-[*0..]->() RETURN p")
+    @Query("MATCH (n:Subcellular) WHERE LOWER(n.identifier) = LOWER({identifier}) WITH n MATCH p=(n)-[*0..]->() RETURN p")
     List<Subcellular> findByIdentifier(@Param("identifier") String identifier);
 
     Collection<Subcellular> findByIdentifierIgnoreCaseLike(@Param("identifier") String identifier);

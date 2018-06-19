@@ -75,8 +75,8 @@ public class SubcellularRepositoryTest {
     }
 
     @Test
-    public void testFindByIdentifier() {
-        final String identifier = "Cell junction";
+    public void testFindByIdentifierCaseShoudBeIgnore() {
+        final String identifier = "cell junction";
         final List<Subcellular> retList = repo.findByIdentifier(identifier);
 
         assertNotNull("Return list can not be null", retList);
