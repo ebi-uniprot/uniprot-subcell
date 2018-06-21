@@ -1,11 +1,13 @@
 package uk.ac.ebi.uniprot.uniprotsubcell.repositories;
 
+import java.util.regex.Pattern;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.neo4j.DataNeo4jTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
 import uk.ac.ebi.uniprot.uniprotsubcell.domains.Subcellular;
 import uk.ac.ebi.uniprot.uniprotsubcell.import_data.ParseSubCellLines;
 
@@ -17,6 +19,7 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -92,13 +95,53 @@ public class SubcellularRepositoryTest {
 
     @Test
     public void
-            testFindByIdentifierIgnoreCaseLikeOrAccessionIgnoreCaseLikeOrContentIgnoreCaseLikeOrKeywordIgnoreCaseLikeOrSynonymsIgnoreCaseLikeOrNoteIgnoreCaseLikeOrDefinitionIgnoreCaseLike() {
+    testFindByIdentifierIgnoreCaseLikeOrAccessionIgnoreCaseLikeOrContentIgnoreCaseLikeOrKeywordIgnoreCaseLikeOrSynonymsIgnoreCaseLikeOrNoteIgnoreCaseLikeOrDefinitionIgnoreCaseLike() {
         final String input = "*memBRane*";
         final Collection<Subcellular> retCol = repo
                 .findByIdentifierIgnoreCaseLikeOrAccessionIgnoreCaseLikeOrContentIgnoreCaseLikeOrKeywordIgnoreCaseLikeOrSynonymsIgnoreCaseLikeOrNoteIgnoreCaseLikeOrDefinitionIgnoreCaseLike(
                         input, input, input, input, input, input, input);
         assertNotNull(retCol);
         assertEquals("Size of In identifier", 11, retCol.size());
+    }
+
+    @Test
+    public void identifierWholeWordShouldMatch() {
+        Pattern p = Pattern.compile("(?i).*\\bendomembrane\\b.*");
+        Collection<Subcellular> result = repo.findByIdentifierRegex(p);
+        assertThat(result).isNotNull().hasSize(1);
+
+        //when identifier is not complete (endomembrane)
+        p = Pattern.compile("(?i).*\\bendomembran\\b.*");
+        result = repo.findByIdentifierRegex(p);
+        assertThat(result).isNotNull().hasSize(0);
+    }
+
+    @Test
+    public void identifierRegexResultShouldGetRelationsAndGoMappings() {
+        final Pattern p = Pattern.compile("(?i).*\\bacrosome membrane\\b.*");
+        final Collection<Subcellular> result = repo.findByIdentifierRegex(p);
+
+        final Subcellular k = result.stream().findFirst().orElse(null);
+        assertThat(k.getIsA()).isNotNull().hasSize(1);
+        assertThat(k.getGoMappings().get(0)).isNotNull();
+        assertThat(k.getPartOf()).isNotNull().hasSize(2);
+    }
+
+    @Test
+    public void wordMatchInIdentifierAccessionContentKeywordNoteDefinitionSynonyms() {
+        Pattern p = Pattern.compile("(?i).*\\bVESICLe\\b.*");
+        Collection<Subcellular> retCol =
+                repo.findByIdentifierRegexOrAccessionRegexOrContentRegexOrKeywordRegexOrSynonymsRegexOrNoteRegexOrDefinitionRegex(
+                        p, p, p, p, p, p, p);
+        assertNotNull(retCol);
+        assertEquals(10, retCol.size());
+
+        p = Pattern.compile("(?i).*\\bVESICL\\b.*");
+        retCol =
+                repo.findByIdentifierRegexOrAccessionRegexOrContentRegexOrKeywordRegexOrSynonymsRegexOrNoteRegexOrDefinitionRegex(
+                        p, p, p, p, p, p, p);
+        assertNotNull(retCol);
+        assertEquals(0, retCol.size());
     }
 
 }

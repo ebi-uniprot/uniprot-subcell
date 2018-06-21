@@ -1,10 +1,12 @@
 package uk.ac.ebi.uniprot.uniprotsubcell.services;
 
+import java.util.regex.Pattern;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
+
 import uk.ac.ebi.uniprot.uniprotsubcell.domains.Location;
 import uk.ac.ebi.uniprot.uniprotsubcell.domains.Orientation;
 import uk.ac.ebi.uniprot.uniprotsubcell.domains.Subcellular;
@@ -19,8 +21,12 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class SubcellularServiceTest {
@@ -63,7 +69,8 @@ public class SubcellularServiceTest {
 
     @Test
     public void testFindByIdentifierIgnoreCaseLike() {
-        when(subcellularRepositoryMock.findByIdentifierIgnoreCaseLike(eq("*i*"))).thenReturn(data);
+        when(subcellularRepositoryMock.findByIdentifierRegex(refEq(Pattern.compile("(?i).*\\bi\\b.*"))))
+                .thenReturn(data);
         Collection<Subcellular> retCol = subcellularService.findByIdentifierIgnoreCaseLike("i");
         assertNotNull(retCol);
         assertEquals(3, retCol.size());
@@ -78,28 +85,32 @@ public class SubcellularServiceTest {
 
     @Test
     public void testKeywordSearch() {
-        String input = "*inner*";
+        Pattern input = Pattern.compile("(?i).*\\btip\\b.*");
         when(subcellularRepositoryMock
-                .findByIdentifierIgnoreCaseLikeOrAccessionIgnoreCaseLikeOrContentIgnoreCaseLikeOrKeywordIgnoreCaseLikeOrSynonymsIgnoreCaseLikeOrNoteIgnoreCaseLikeOrDefinitionIgnoreCaseLike(
-                        eq(input), eq(input), eq(input), eq(input), eq(input), eq(input),
-                        eq(input))).thenReturn(data.subList(0, 1));
-        input = "*man*";
+                .findByIdentifierRegexOrAccessionRegexOrContentRegexOrKeywordRegexOrSynonymsRegexOrNoteRegexOrDefinitionRegex(
+                        refEq(input), refEq(input), refEq(input), refEq(input), refEq(input), refEq(input),
+                        refEq(input))).thenReturn(data.subList(0, 1));
+        input = Pattern.compile("(?i).*\\bman\\b.*");
         when(subcellularRepositoryMock
-                .findByIdentifierIgnoreCaseLikeOrAccessionIgnoreCaseLikeOrContentIgnoreCaseLikeOrKeywordIgnoreCaseLikeOrSynonymsIgnoreCaseLikeOrNoteIgnoreCaseLikeOrDefinitionIgnoreCaseLike(
-                        eq(input), eq(input), eq(input), eq(input), eq(input), eq(input),
-                        eq(input))).thenReturn(data.subList(1, 2));
-        input = "*outer*";
+                .findByIdentifierRegexOrAccessionRegexOrContentRegexOrKeywordRegexOrSynonymsRegexOrNoteRegexOrDefinitionRegex(
+                        refEq(input), refEq(input), refEq(input), refEq(input), refEq(input), refEq(input),
+                        refEq(input))).thenReturn(data.subList(1, 2));
+        input = Pattern.compile("(?i).*\\bsl-9910\\b.*");
         when(subcellularRepositoryMock
-                .findByIdentifierIgnoreCaseLikeOrAccessionIgnoreCaseLikeOrContentIgnoreCaseLikeOrKeywordIgnoreCaseLikeOrSynonymsIgnoreCaseLikeOrNoteIgnoreCaseLikeOrDefinitionIgnoreCaseLike(
-                        eq(input), eq(input), eq(input), eq(input), eq(input), eq(input),
-                        eq(input))).thenReturn(data.subList(2, 3));
-        input = "*not*";
+                .findByIdentifierRegexOrAccessionRegexOrContentRegexOrKeywordRegexOrSynonymsRegexOrNoteRegexOrDefinitionRegex(
+                        refEq(input), refEq(input), refEq(input), refEq(input), refEq(input), refEq(input),
+                        refEq(input))).thenReturn(data.subList(2, 3));
+        input = Pattern.compile("(?i).*\\bnot\\b.*");
         when(subcellularRepositoryMock
-                .findByIdentifierIgnoreCaseLikeOrAccessionIgnoreCaseLikeOrContentIgnoreCaseLikeOrKeywordIgnoreCaseLikeOrSynonymsIgnoreCaseLikeOrNoteIgnoreCaseLikeOrDefinitionIgnoreCaseLike(
-                        eq(input), eq(input), eq(input), eq(input), eq(input), eq(input),
-                        eq(input))).thenReturn(data.subList(0, 1));
-        Collection<Subcellular> retCol = subcellularService.findAllByKeyWords("inNer Outer INNER man noT");
+                .findByIdentifierRegexOrAccessionRegexOrContentRegexOrKeywordRegexOrSynonymsRegexOrNoteRegexOrDefinitionRegex(
+                        refEq(input), refEq(input), refEq(input), refEq(input), refEq(input), refEq(input),
+                        refEq(input))).thenReturn(data.subList(0, 1));
+        Collection<Subcellular> retCol = subcellularService.findAllByKeyWords("tIp SL-9910 TIP man noT");
         assertNotNull(retCol);
-        assertEquals(3, retCol.size());
+        assertEquals(2, retCol.size());
+
+        verify(subcellularRepositoryMock, times(4))
+                .findByIdentifierRegexOrAccessionRegexOrContentRegexOrKeywordRegexOrSynonymsRegexOrNoteRegexOrDefinitionRegex(
+                        any(), any(), any(), any(), any(), any(), any());
     }
 }

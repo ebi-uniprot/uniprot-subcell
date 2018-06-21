@@ -113,6 +113,6 @@ public class DefaultControllerIT {
         assertEquals("Content type check", MediaType.APPLICATION_JSON_UTF8, rawRes.getHeaders().getContentType());
 
         Subcellular[] retArr = mapper.readValue(rawRes.getBody(), Subcellular[].class);
-        assertEquals(378, retArr.length);
+        assertEquals(345, retArr.length);
     }
 }

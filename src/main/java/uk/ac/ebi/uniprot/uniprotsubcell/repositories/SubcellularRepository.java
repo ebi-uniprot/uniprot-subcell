@@ -5,6 +5,7 @@ import uk.ac.ebi.uniprot.uniprotsubcell.domains.Subcellular;
 import java.util.Collection;
 import java.util.List;
 
+import java.util.regex.Pattern;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
@@ -24,4 +25,15 @@ public interface SubcellularRepository extends Neo4jRepository<Subcellular, Long
             findByIdentifierIgnoreCaseLikeOrAccessionIgnoreCaseLikeOrContentIgnoreCaseLikeOrKeywordIgnoreCaseLikeOrSynonymsIgnoreCaseLikeOrNoteIgnoreCaseLikeOrDefinitionIgnoreCaseLike(
                     String identifier, String accession, String content, String keyword, String synonyms, String note,
                     String definition);
+
+
+    @Query("MATCH (n:Subcellular) WHERE n.identifier =~ {0} OR n.accession =~ {1} OR n.content =~ {2} OR n.keyword =~" +
+            " {3} OR ANY(synonym IN n.synonyms WHERE synonym =~ {4}) OR n.note =~ {5} OR n.definition =~ {6} " +
+            "WITH n MATCH p=(n)-[*1..1]->() RETURN p")
+    Collection<Subcellular>
+    findByIdentifierRegexOrAccessionRegexOrContentRegexOrKeywordRegexOrSynonymsRegexOrNoteRegexOrDefinitionRegex(
+            Pattern identifier, Pattern accession, Pattern content, Pattern keyword, Pattern synonyms, Pattern note,
+            Pattern definition);
+
+    Collection<Subcellular> findByIdentifierRegex(Pattern identifier);
 }

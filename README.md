@@ -35,8 +35,8 @@ Endpoint | Description
 -------- | -----------
 http://localhost:8080/accession/SL-0004 | Return the single subcellular entry with all depth relationships exact match on accession=SL-0004
 http://localhost:8080/identifier/membrane | Return single subcellular entry with all depth relationships exact match on identifier=membrane while ignoring case (case-insensitive)
-http://localhost:8080/identifier/all/MemBrAnE | Returns the collection of subcellulars of all the matching subcellulars which contains the "membrane" after ignoring case in identifiers. Return elements in list will resolve relationships at depth 1
-http://localhost:8080/search/mEmbrance iNNer | Returns the unique collection of subcellulars of all the matching subcellulars which contains the "membrane" or "inner" after ignoring case in identifier or accession or content or keyword or synonyms or note or definition. Return elements in collection will contain relationships at depth level 1
+http://localhost:8080/identifier/all/MemBrAnE | Returns the collection of subcellulars of all the matching subcellulars which contains the "membrane" after ignoring case in identifiers. Searching word (in this example "membrane") should be complete and have correct spellings to hit match. Return elements in list will resolve relationships at depth 1
+http://localhost:8080/search/mEmbrance iNNer | Returns the unique collection of subcellulars of all the matching subcellulars which contains the "membrance" or "inner" after ignoring case in identifier or accession or content or keyword or synonyms or note or definition. Searching words (in this example "membrance" and "inner" ) should be complete and have correct spellings to hit match. Return elements in collection will contain relationships at depth level 1
 http://localhost:8080/v2/api-docs | API documentation in JSON format
 http://localhost:8080/swagger-ui.html | API documentation for user (Web-UI)
 
