@@ -14,6 +14,6 @@ LABEL maintainer <rizwan.ishtiaq@ebi.ac.uk>
 WORKDIR /app
 COPY --from=subcell_compile /usr/src/subcell/target/uniprot-subcell-0.0.1-SNAPSHOT.jar .
 RUN wget ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/subcell.txt
-RUN ["java", "-jar", "uniprot-subcell-0.0.1-SNAPSHOT.jar", "subcell.txt", "stopserver"]
+RUN ["java", "-jar", "uniprot-subcell-0.0.1-SNAPSHOT.jar", "subcell.txt", "--stopserver"]
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","uniprot-subcell-0.0.1-SNAPSHOT.jar"]
