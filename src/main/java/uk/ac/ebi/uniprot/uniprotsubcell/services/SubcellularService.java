@@ -1,6 +1,7 @@
 package uk.ac.ebi.uniprot.uniprotsubcell.services;
 
 import uk.ac.ebi.uniprot.uniprotsubcell.domains.Subcellular;
+import uk.ac.ebi.uniprot.uniprotsubcell.import_data.CombineSubcellAndRefCount;
 import uk.ac.ebi.uniprot.uniprotsubcell.import_data.ParseSubCellLines;
 import uk.ac.ebi.uniprot.uniprotsubcell.repositories.SubcellularRepository;
 
@@ -27,19 +28,6 @@ public class SubcellularService {
 
     public SubcellularService(SubcellularRepository subcellularRepository) {
         this.subcellularRepository = subcellularRepository;
-    }
-
-    @Transactional
-    public void importEntriesFromFileIntoDb(final String filePath) throws IOException {
-        LOG.debug("File: {} to import data set ", filePath);
-        final ParseSubCellLines parser = new ParseSubCellLines();
-        List<String> allLines = Files.readAllLines(Paths.get(filePath));
-        LOG.debug("total {} lines found in file ", allLines.size());
-        List<Subcellular> subCellList = parser.parseLines(allLines);
-        LOG.info("total {} entries found in file ", subCellList.size());
-        LOG.debug("saving entries into file");
-        subcellularRepository.saveAll(subCellList);
-        LOG.info("Import finished and entries saved into database successfully");
     }
 
     @Transactional(readOnly = true)
@@ -113,5 +101,17 @@ public class SubcellularService {
     private boolean stringPatternMatch(List<String> input, Pattern p) {
         final String s = Optional.ofNullable(input).map(Object::toString).orElse(null);
         return stringPatternMatch(s, p);
+    }
+
+    public void importSubcellEntriesFromFileIntoDb(String pathToSubcellFile) {
+        importSubcellAndReferenceCountFromFilesIntoDb(pathToSubcellFile, "reference count file not given");
+    }
+
+    @Transactional
+    public void importSubcellAndReferenceCountFromFilesIntoDb(String pathToSubcellFile, String pathToRefCountFile) {
+        CombineSubcellAndRefCount obj = new CombineSubcellAndRefCount();
+        final List<Subcellular> subCellList = obj.readFileImportAndCombine(pathToSubcellFile, pathToRefCountFile);
+        subcellularRepository.saveAll(subCellList);
+        LOG.info("{} SubCell locations saved into database", subCellList.size());
     }
 }

@@ -80,7 +80,7 @@ public class SubcellularServiceTest {
     public void testImportEntriesFromFileIntoDb() throws IOException {
         doAnswer(returnsFirstArg()).when(subcellularRepositoryMock).saveAll(ArgumentMatchers.anyCollection());
         subcellularService
-                .importEntriesFromFileIntoDb(getClass().getClassLoader().getResource("sample-data.txt").getPath());
+                .importSubcellEntriesFromFileIntoDb(getClass().getClassLoader().getResource("sample-data.txt").getPath());
     }
 
     @Test

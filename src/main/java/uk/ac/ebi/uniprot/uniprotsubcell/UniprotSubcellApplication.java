@@ -10,7 +10,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -26,29 +29,33 @@ public class UniprotSubcellApplication {
 
     public static void main(String[] args) {
 
+        final List<String> argList =
+                Stream.of(args).filter(s -> !s.equalsIgnoreCase("--stopserver")).collect(Collectors.toList());
+
         // user wants to import new data, Delete existing database
-        if (args.length >= 1) {
+        if (!argList.isEmpty()) {
             deleteExistingDatabase();
         }
 
-        ApplicationContext context = SpringApplication.run(UniprotSubcellApplication.class, args);
+        final ApplicationContext context = SpringApplication.run(UniprotSubcellApplication.class, args);
+        final SubcellularService subService = context.getBean(SubcellularService.class);
 
-        // 1st parameter is to import the file
-        if (args.length >= 1) {
-            try {
+        // Import only subcell and create new database
+        if (argList.size() == 1) {
+            // 1st parameter is to import the subcell file
+            subService.importSubcellEntriesFromFileIntoDb(argList.get(0));
+        }
 
-                // Import and create new database
-                context.getBean(SubcellularService.class).importEntriesFromFileIntoDb(args[0]);
+        // Import subcell, reference count and create new database
+        if (argList.size() > 1) {
+            //1st file is diseases, 2nd is reference
+            subService.importSubcellAndReferenceCountFromFilesIntoDb(argList.get(0), argList.get(1));
+        }
 
-                // Stop server if user just want to import data, using while creating docker image
-                if (args.length >= 2 && "stopserver".equalsIgnoreCase(args[1])) {
-                    ((ConfigurableApplicationContext) context).close();
-                    System.exit(0);
-                }
-            } catch (IOException e) {
-                LOG.error("import failed but REST api will continue serving");
-                LOG.error("Import failed due to ", e);
-            }
+        // Stop server if user just want to import data, using while creating docker image
+        if (Stream.of(args).anyMatch(s -> s.equalsIgnoreCase("--stopserver"))) {
+            ((ConfigurableApplicationContext) context).close();
+            System.exit(0);
         }
     }
 
@@ -65,10 +72,12 @@ public class UniprotSubcellApplication {
 
             // Start delete if only path exists
             if (rootPath != null && Files.exists(rootPath)) {
-                Files.walk(rootPath, FileVisitOption.FOLLOW_LINKS)
-                        .sorted(Comparator.reverseOrder())
-                        .map(Path::toFile)
-                        .forEach(File::delete);
+                LOG.info("Deleting Database from {}", rootPath);
+                try (Stream<Path> paths = Files.walk(rootPath, FileVisitOption.FOLLOW_LINKS)) {
+                    paths.sorted(Comparator.reverseOrder())
+                            .map(Path::toFile)
+                            .forEach(File::delete);
+                }
             }
 
         } catch (IOException e) {

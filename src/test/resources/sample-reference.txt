@@ -1,0 +1,6 @@
+Cell tip,1,3
+Acrosome,0,1
+Cell tip,0,1
+Acrosome membrane,0,2
+Vesicle,0,1
+Acrosome membrane,1,4

@@ -59,6 +59,10 @@ public class Subcellular {
     // WW Interesting links Optional; Once or more
     protected List<String> links;
 
+    private int swissProtCount;
+    private int tremblCount;
+
+
     /**
      * No client/user should create this class directly
      * 
@@ -173,6 +177,22 @@ public class Subcellular {
 
     public void setLinks(List<String> links) {
         this.links = links;
+    }
+
+    public int getSwissProtCount() {
+        return swissProtCount;
+    }
+
+    public void setSwissProtCount(int swissProtCount) {
+        this.swissProtCount = swissProtCount;
+    }
+
+    public int getTremblCount() {
+        return tremblCount;
+    }
+
+    public void setTremblCount(int tremblCount) {
+        this.tremblCount = tremblCount;
     }
 
     @Override

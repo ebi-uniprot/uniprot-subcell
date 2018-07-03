@@ -74,7 +74,7 @@ public class DefaultControllerIT {
     @Before
     public void setup() throws Exception {
         if (!isRun) {
-            service.importEntriesFromFileIntoDb(new File(TEMP_FILE_NAME).getPath());
+            service.importSubcellEntriesFromFileIntoDb(new File(TEMP_FILE_NAME).getPath());
             isRun = true;
         }
         mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
