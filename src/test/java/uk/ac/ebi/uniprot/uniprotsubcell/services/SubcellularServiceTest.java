@@ -1,5 +1,6 @@
 package uk.ac.ebi.uniprot.uniprotsubcell.services;
 
+import java.util.Collections;
 import java.util.regex.Pattern;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -11,17 +12,21 @@ import uk.ac.ebi.uniprot.uniprotsubcell.domains.Location;
 import uk.ac.ebi.uniprot.uniprotsubcell.domains.Orientation;
 import uk.ac.ebi.uniprot.uniprotsubcell.domains.Subcellular;
 import uk.ac.ebi.uniprot.uniprotsubcell.domains.Topology;
+import uk.ac.ebi.uniprot.uniprotsubcell.dto.SubcellularAutoComplete;
 import uk.ac.ebi.uniprot.uniprotsubcell.repositories.SubcellularRepository;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.doAnswer;
@@ -112,5 +117,34 @@ public class SubcellularServiceTest {
         verify(subcellularRepositoryMock, times(4))
                 .findByIdentifierRegexOrAccessionRegexOrContentRegexOrKeywordRegexOrSynonymsRegexOrNoteRegexOrDefinitionRegex(
                         any(), any(), any(), any(), any(), any(), any());
+    }
+
+
+    @Test
+    public void autoCompleteShouldCallPaginationWithDefault10WhenPassingSizeNull(){
+        when(subcellularRepositoryMock.findProjectedByIdentifierIgnoreCaseLike(anyString(), refEq(PageRequest.of(0,10)))).thenReturn
+                (Page.empty());
+        final List<SubcellularAutoComplete> retList = subcellularService.autoCompleteSearch("s", null);
+    }
+
+    @Test
+    public void autoCompleteShouldCallPaginationWithDefault10WhenPassingSize0(){
+        when(subcellularRepositoryMock.findProjectedByIdentifierIgnoreCaseLike(anyString(), refEq(PageRequest.of(0,10)))).thenReturn
+                (Page.empty());
+        final List<SubcellularAutoComplete> retList = subcellularService.autoCompleteSearch("s", 0);
+    }
+
+    @Test
+    public void autoCompleteShouldCallPaginationWithIntegerMaxWhenPassingSizeMinusValue(){
+        when(subcellularRepositoryMock.findProjectedByIdentifierIgnoreCaseLike(anyString(), refEq(PageRequest.of(0,Integer.MAX_VALUE)))).thenReturn
+                (Page.empty());
+        final List<SubcellularAutoComplete> retList = subcellularService.autoCompleteSearch("s", -1);
+    }
+
+    @Test
+    public void autoCompleteWhenPassingPositiveValue(){
+        when(subcellularRepositoryMock.findProjectedByIdentifierIgnoreCaseLike(eq("*s*"), refEq(PageRequest.of(0,5))))
+                .thenReturn(Page.empty());
+        final List<SubcellularAutoComplete> retList = subcellularService.autoCompleteSearch("s", 5);
     }
 }

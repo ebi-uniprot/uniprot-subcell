@@ -1,6 +1,7 @@
 package uk.ac.ebi.uniprot.uniprotsubcell.services;
 
 import uk.ac.ebi.uniprot.uniprotsubcell.domains.Subcellular;
+import uk.ac.ebi.uniprot.uniprotsubcell.dto.SubcellularAutoComplete;
 import uk.ac.ebi.uniprot.uniprotsubcell.import_data.CombineSubcellAndRefCount;
 import uk.ac.ebi.uniprot.uniprotsubcell.import_data.ParseSubCellLines;
 import uk.ac.ebi.uniprot.uniprotsubcell.repositories.SubcellularRepository;
@@ -15,6 +16,8 @@ import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -113,5 +116,14 @@ public class SubcellularService {
         final List<Subcellular> subCellList = obj.readFileImportAndCombine(pathToSubcellFile, pathToRefCountFile);
         subcellularRepository.saveAll(subCellList);
         LOG.info("{} SubCell locations saved into database", subCellList.size());
+    }
+
+    public List<SubcellularAutoComplete> autoCompleteSearch(String search, Integer returnSize) {
+        final int limited =
+                returnSize == null || returnSize == 0 ? 10 : returnSize < 0 ? Integer.MAX_VALUE : returnSize;
+        search = search == null ? "" : search.trim();
+        search = "*" + search + "*";
+        final Pageable pageable = PageRequest.of(0, limited);
+        return subcellularRepository.findProjectedByIdentifierIgnoreCaseLike(search, pageable).getContent();
     }
 }

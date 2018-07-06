@@ -6,9 +6,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.neo4j.DataNeo4jTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import uk.ac.ebi.uniprot.uniprotsubcell.domains.Subcellular;
+import uk.ac.ebi.uniprot.uniprotsubcell.dto.SubcellularAutoComplete;
 import uk.ac.ebi.uniprot.uniprotsubcell.import_data.ParseSubCellLines;
 
 import java.io.IOException;
@@ -25,6 +30,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @DataNeo4jTest
 public class SubcellularRepositoryTest {
+    private static final String IDENTIFIER_PROP = "identifier";
 
     private static List<Subcellular> subcellList;
 
@@ -144,4 +150,16 @@ public class SubcellularRepositoryTest {
         assertEquals(0, retCol.size());
     }
 
+    @Test
+    public void autoCompleteAndPaginationChecks() {
+        final String id = "*mem*";
+        List<SubcellularAutoComplete> result = repo.findProjectedByIdentifierIgnoreCaseLike(id, PageRequest.of(0, 1)).getContent();
+        assertThat(result).isNotNull().hasSize(1);
+
+        result = repo.findProjectedByIdentifierIgnoreCaseLike(id, PageRequest.of(0, 10)).getContent();
+        assertThat(result).isNotNull().hasSize(6);
+
+        assertThat(result).extracting(IDENTIFIER_PROP).contains("Cytoplasmic vesicle membrane","Endomembrane system",
+                "Secretory vesicle membrane", "Membrane", "Acrosome membrane", "Acrosome inner membrane");
+    }
 }

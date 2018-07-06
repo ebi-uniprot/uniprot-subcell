@@ -1,6 +1,7 @@
 package uk.ac.ebi.uniprot.uniprotsubcell.controllers;
 
 import uk.ac.ebi.uniprot.uniprotsubcell.domains.Subcellular;
+import uk.ac.ebi.uniprot.uniprotsubcell.dto.SubcellularAutoComplete;
 import uk.ac.ebi.uniprot.uniprotsubcell.services.SubcellularService;
 
 import java.util.Collection;
@@ -36,6 +37,11 @@ public class DefaultController {
     @GetMapping("search/{wordSeperatedBySpace}")
     public Collection<Subcellular> search(@PathVariable String wordSeperatedBySpace) {
         return subcellularService.findAllByKeyWords(wordSeperatedBySpace);
+    }
+
+    @GetMapping("like/{wordCanBeSeperatedBySpace}")
+    public Collection<SubcellularAutoComplete> autoComplete(@PathVariable String wordCanBeSeperatedBySpace, Integer size) {
+        return subcellularService.autoCompleteSearch(wordCanBeSeperatedBySpace, size);
     }
 
 }

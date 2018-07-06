@@ -5,12 +5,14 @@ import uk.ac.ebi.uniprot.uniprotsubcell.domains.Location;
 import uk.ac.ebi.uniprot.uniprotsubcell.domains.Orientation;
 import uk.ac.ebi.uniprot.uniprotsubcell.domains.Subcellular;
 import uk.ac.ebi.uniprot.uniprotsubcell.domains.Topology;
+import uk.ac.ebi.uniprot.uniprotsubcell.dto.SubcellularAutoComplete;
 import uk.ac.ebi.uniprot.uniprotsubcell.services.SubcellularService;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -116,5 +118,36 @@ public class DefaultControllerTest {
                 mapper.getTypeFactory().constructCollectionType(List.class, Subcellular.class));
 
         assertThat(retList.size()).isEqualTo(3);
+    }
+
+    @Test
+    public void likeEndPointForAutoCompleteWithOutSize() throws Exception {
+        given(subcellularService.autoCompleteSearch("abc def", null)).willReturn(Collections.emptyList());
+
+        MvcResult rawRes = mockMvc.perform(get("/like/{wordCanBeSeperatedBySpace}", "abc def"))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void likeEndPointForAutoCompleteWithSize() throws Exception {
+
+        given(subcellularService.autoCompleteSearch("abc", 5)).willReturn(Arrays.asList(
+                new SubcellularAutoComplete() {
+                    @Override public String getIdentifier() {
+                        return "Membrane";
+                    }
+
+                    @Override public String getAccession() {
+                        return "SL-123";
+                    }
+                }
+        ));
+
+        MvcResult rawRes = mockMvc.perform(get("/like/abc?size=5"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].identifier").value("Membrane"))
+                .andExpect(jsonPath("$[0].accession").value("SL-123"))
+                .andReturn();
     }
 }

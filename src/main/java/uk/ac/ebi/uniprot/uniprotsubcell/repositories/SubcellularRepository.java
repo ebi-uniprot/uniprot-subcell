@@ -1,11 +1,14 @@
 package uk.ac.ebi.uniprot.uniprotsubcell.repositories;
 
 import uk.ac.ebi.uniprot.uniprotsubcell.domains.Subcellular;
+import uk.ac.ebi.uniprot.uniprotsubcell.dto.SubcellularAutoComplete;
 
 import java.util.Collection;
 import java.util.List;
 
 import java.util.regex.Pattern;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
@@ -36,4 +39,6 @@ public interface SubcellularRepository extends Neo4jRepository<Subcellular, Long
             Pattern definition);
 
     Collection<Subcellular> findByIdentifierRegex(Pattern identifier);
+
+    Page<SubcellularAutoComplete> findProjectedByIdentifierIgnoreCaseLike(String identifier, Pageable pageable);
 }
